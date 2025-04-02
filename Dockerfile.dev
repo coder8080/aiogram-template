@@ -1,0 +1,8 @@
+FROM pypy:3
+
+WORKDIR /usr/src/app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir watchdog
+
+CMD watchmedo auto-restart --patterns="*.py" --recursive --interval 5 -- pypy -u src/main.py
