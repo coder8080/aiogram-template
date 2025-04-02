@@ -1,6 +1,6 @@
 FROM python:3.13.2-alpine
 
-RUN pip install --no-cache-dir watchdog alembic
+RUN pip install --no-cache-dir watchdog
 
 WORKDIR /usr/src/app
 COPY requirements.txt .
