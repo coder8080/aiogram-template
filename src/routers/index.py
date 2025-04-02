@@ -2,10 +2,9 @@ from aiogram import Router
 from aiogram.filters import CommandStart
 from aiogram.types import Message
 
-from src.entities import TEXT
-
 router = Router()
 
+
 @router.message(CommandStart())
-async def start(message: Message):
-    await message.answer(TEXT['start'])
+async def start(message: Message, chat_id: int, username: str):
+    await message.answer(f"hello {chat_id} {username}")

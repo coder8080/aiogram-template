@@ -5,10 +5,10 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import DeclarativeBase
 
-from src.entities import LOCAL, POSTGRES_PASSWORD, POSTGRES_USER
+from src.entities.constants import LOCAL, POSTGRES_PASSWORD, POSTGRES_USER
 
 
-class Base(AsyncAttrs, DeclarativeBase):
+class Base(DeclarativeBase, AsyncAttrs):
     pass
 
 

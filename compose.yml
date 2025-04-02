@@ -35,6 +35,8 @@ services:
       - bot
     volumes:
       - ./src:/usr/src/app/src
+      - ./alembic.ini:/usr/src/app/alembic.ini
+      - ./alembic:/usr/src/app/alembic
     restart: unless-stopped
     depends_on:
       postgres:
@@ -64,7 +66,7 @@ services:
 
   redis:
     image: redis:7.4.2-alpine
-    container_name: usmile-redis
+    container_name: bot-redis
     networks:
       - bot
     volumes:
@@ -91,3 +93,5 @@ services:
         condition: service_healthy
     volumes:
       - ./alembic:/usr/src/app/alembic
+    environment:
+      MESSAGE: ${MESSAGE}

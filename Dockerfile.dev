@@ -1,8 +1,9 @@
-FROM pypy:3
+FROM python:3.13.2-alpine
+
+RUN pip install --no-cache-dir watchdog alembic
 
 WORKDIR /usr/src/app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-RUN pip install --no-cache-dir watchdog
 
-CMD watchmedo auto-restart --patterns="*.py" --recursive --interval 5 -- pypy -u src/main.py
+CMD alembic upgrade head && alembic current && watchmedo auto-restart --patterns="*.py" --recursive --interval 5 -- python -u src/main.py
