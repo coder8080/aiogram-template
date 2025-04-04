@@ -11,7 +11,7 @@ services:
       - prod
     networks:
       - bot
-    restart: unless-stopped
+    restart: always
     depends_on:
       postgres:
         condition: service_healthy
@@ -35,7 +35,7 @@ services:
       - ./src:/usr/src/app/src
       - ./alembic.ini:/usr/src/app/alembic.ini
       - ./alembic:/usr/src/app/alembic
-    restart: unless-stopped
+    restart: no
     depends_on:
       postgres:
         condition: service_healthy
@@ -61,6 +61,7 @@ services:
       - dev
       - prod
       - alembic
+    restart: always
 
   redis:
     image: redis:7.4.2-alpine
@@ -76,6 +77,7 @@ services:
       test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       start_period: 10s
       start_interval: 1s
+    restart: always
 
   alembic:
     build:
@@ -93,3 +95,4 @@ services:
       - ./alembic:/usr/src/app/alembic
     environment:
       MESSAGE: ${MESSAGE}
+    restart: no
