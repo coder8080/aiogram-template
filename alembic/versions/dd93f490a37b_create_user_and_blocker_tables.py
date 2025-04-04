@@ -1,8 +1,8 @@
 """Create User and Blocker tables
 
-Revision ID: 6d7f4c733dea
+Revision ID: dd93f490a37b
 Revises: 
-Create Date: 2025-04-02 13:50:02.091497
+Create Date: 2025-04-04 19:11:46.824544
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '6d7f4c733dea'
+revision: str = 'dd93f490a37b'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None

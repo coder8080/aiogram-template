@@ -2,15 +2,17 @@ import asyncio
 
 from aiogram import Dispatcher
 
-from src.entities.bot import bot
-from src.entities.middlewares import register_middlewares
-from src.routers.include_routers import include_routers
+from src.bot.start.router import router as start_router
+from src.bot.user.middlewares import GetUserMiddleware
+from src.create_bot import bot
 
 
 async def main():
     dp = Dispatcher()
-    register_middlewares(dp)
-    include_routers(dp)
+
+    dp.update.middleware(GetUserMiddleware())
+    dp.include_router(start_router)
+
     await dp.start_polling(bot)
 
 

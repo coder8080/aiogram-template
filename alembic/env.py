@@ -6,9 +6,9 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-# lint.ignore-init-module-imports
 from alembic import context
-from src.models.user import Base, Blocker, User
+from src.bot.user.models import Blocker, User
+from src.db.base import Base
 
 print(User, Blocker)
 
