@@ -26,3 +26,5 @@ class Blocker(Base):
         BigInteger(), primary_key=True, index=True
     )
     user_id: Mapped[int] = mapped_column(ForeignKey("user_account.chat_id"))
+
+    user: Mapped[User] = relationship(back_populates="blockers")
