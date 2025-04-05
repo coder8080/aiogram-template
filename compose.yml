@@ -27,6 +27,8 @@ services:
       context: .
       dockerfile: Dockerfile.dev
     env_file: .env
+    environment:
+      LOCAL: True
     profiles:
       - dev
     networks:
