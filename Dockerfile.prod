@@ -4,4 +4,6 @@ WORKDIR /usr/src/app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+ENV PYTHONPATH=/usr/src/app
+
 CMD alembic upgrade head && python -u src/main.py

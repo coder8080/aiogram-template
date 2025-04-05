@@ -2,28 +2,25 @@ from typing import Any, Awaitable, Callable, Dict, cast
 
 from aiogram import BaseMiddleware
 from aiogram.types import TelegramObject, Update
+from aiogram.types import User as TgUser
 
 from .actions import get_or_create_user
 
 
 def get_update_user_info(update: Update):
-    chat_id: int = 0
-    username: str | None = None
+    actor: TgUser | None = None
 
     if update.message and update.message.from_user:
-        chat_id = update.message.from_user.id
-        username = update.message.from_user.username
+        actor = update.message.from_user
     elif update.callback_query and update.callback_query.from_user:
-        chat_id = update.callback_query.from_user.id
-        username = update.callback_query.from_user.username
+        actor = update.callback_query.from_user
     elif update.pre_checkout_query and update.pre_checkout_query.from_user:
-        chat_id = update.pre_checkout_query.from_user.id
-        username = update.pre_checkout_query.from_user.username
+        actor = update.pre_checkout_query.from_user
 
-    if username is None:
-        username = f"unknown:${chat_id}"
+    if actor and actor.username is None:
+        actor.username = f"unknown:${actor.id}"
 
-    return chat_id, username
+    return actor
 
 
 class GetUserMiddleware(BaseMiddleware):
@@ -34,13 +31,12 @@ class GetUserMiddleware(BaseMiddleware):
         data: Dict[str, Any],
     ):
         update = cast(Update, _update)
-        chat_id, username = get_update_user_info(update)
-        if chat_id == 0:
+        actor = get_update_user_info(update)
+        if actor is None:
             return await handler(update, data)
 
-        await get_or_create_user(chat_id, username)
+        await get_or_create_user(actor.id, actor.username or "unknown")
 
-        data["chat_id"] = chat_id
-        data["username"] = username
+        data["actor"] = actor
 
         return await handler(update, data)

@@ -5,4 +5,6 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
+ENV PYTHONPATH=/usr/src/app
+
 CMD alembic revision --autogenerate -m "$MESSAGE" && alembic upgrade head

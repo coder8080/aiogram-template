@@ -4,7 +4,7 @@ from aiogram import Dispatcher
 
 from src.bot.start.router import router as start_router
 from src.bot.user.middlewares import GetUserMiddleware
-from src.create_bot import bot
+from src.common.bot import bot
 
 
 async def main():
