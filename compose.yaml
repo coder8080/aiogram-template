@@ -1,26 +1,14 @@
+# ⚠️ WARN: only for development. Use kubernetes in production
+
 networks:
   bot:
     driver: bridge
 
-services:
-  bot:
-    container_name: bot
-    # image: user/name:tag
-    env_file: .env
-    profiles:
-      - prod
-    networks:
-      - bot
-    restart: always
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - ./certs:/usr/src/app/certs
-      - ./logs:/usr/src/app/logs
+volumes:
+  postgres-data:
+  redis-data:
 
+services:
   bot-dev:
     container_name: bot-dev
     build:
@@ -29,8 +17,10 @@ services:
     env_file: .env
     environment:
       LOCAL: True
-    profiles:
-      - dev
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: password
+      POSGRES_URL: postgres
+      POSTGRES_DB: bot
     networks:
       - bot
     volumes:
@@ -50,19 +40,16 @@ services:
     networks:
       - bot
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: password
+      POSGRES_URL: postgres
       POSTGRES_DB: bot
     volumes:
-      - ./pg_data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: pg_isready --username=$$POSTGRES_USER --dbname bot
       start_period: 10s
       start_interval: 1s
-    profiles:
-      - dev
-      - prod
-      - alembic
     restart: always
 
   redis:
@@ -71,10 +58,7 @@ services:
     networks:
       - bot
     volumes:
-      - ./redis_data:/data
-    profiles:
-      - dev
-      - prod
+      - redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
       start_period: 10s

@@ -179,3 +179,4 @@ certs/*
 !certs/.gitkeep
 logs/*
 !logs/.gitkeep
+kubernetes/secret.yaml

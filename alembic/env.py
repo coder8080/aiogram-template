@@ -14,7 +14,10 @@ print(User, Blocker)
 
 POSTGRES_USER = getenv("POSTGRES_USER")
 POSTGRES_PASSWORD = getenv("POSTGRES_PASSWORD")
-DATABASE_URL = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgres:5432/bot"
+POSTGRES_URL = getenv("POSTGRES_URL")
+POSTGRES_DB = getenv("POSTGRES_DB")
+DATABASE_URL = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_URL}/{POSTGRES_DB}"
+print(DATABASE_URL)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
