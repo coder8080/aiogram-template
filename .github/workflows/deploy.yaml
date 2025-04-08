@@ -22,10 +22,14 @@ jobs:
         env:
           DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       - name: Build container
-        run: docker build -t coder80/template-bot:$SHA -f Dockerfile.prod .
+        run: docker build -t coder80/template-bot:$SHA -t coder80/template-bot:latest -f Dockerfile.prod .
         env:
           SHA: ${{ github.sha }}
-      - name: Push to Docker Hub
+      - name: Push commit hash tag to Docker Hub
+        run: docker push coder80/template-bot:$SHA
+        env:
+          SHA: ${{ github.sha }}
+      - name: Push latest tag to Docker Hub
         run: docker push coder80/template-bot:$SHA
         env:
           SHA: ${{ github.sha }}
@@ -42,6 +46,5 @@ jobs:
         uses: actions-hub/kubectl@master
         env:
           KUBE_CONFIG: ${{ secrets.KUBECTL }}
-          SHA: ${{ github.sha }}
         with:
-          args: set image deployments/bot bot=coder80/template-bot:$SHA -e SHA=$SHA
+          args: set image deployments/bot bot=coder80/template-bot:${{ github.SHA }}
