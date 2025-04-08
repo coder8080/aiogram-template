@@ -1,5 +1,7 @@
 name: Deploy
 
+concurrency: Vostro
+
 run-name: Deploy ${{github.sha}}
 
 on:
