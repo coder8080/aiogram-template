@@ -64,21 +64,3 @@ services:
       start_period: 10s
       start_interval: 1s
     restart: always
-
-  alembic:
-    build:
-      context: .
-      dockerfile: Dockerfile.alembic
-    profiles:
-      - alembic
-    env_file: .env
-    networks:
-      - bot
-    depends_on:
-      postgres:
-        condition: service_healthy
-    volumes:
-      - ./alembic:/usr/src/app/alembic
-    environment:
-      MESSAGE: ${MESSAGE}
-    restart: no
