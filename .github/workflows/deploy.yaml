@@ -18,15 +18,15 @@ jobs:
       - name: Login to Docker Hub
         run: echo $DOCKER_TOKEN | docker login -u coder80 --password-stdin
         env:
-          DOCKER_TOKEN: ${{secrets.DOCKER_TOKEN}}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       - name: Build container
         run: docker build -t coder80/template-bot:$SHA -f Dockerfile.prod .
         env:
-          SHA: ${{github.sha}}
+          SHA: ${{ github.sha }}
       - name: Push to Docker Hub
         run: docker push coder80/template-bot:$SHA
         env:
-          SHA: ${{github.sha}}
+          SHA: ${{ github.sha }}
 
   deploy:
     needs: build
@@ -36,15 +36,10 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Set kubectl config
-        run: echo $KUBECTL_CONFIG > ~/.kube/config
-        env:
-          KUBECTL_CONFIG: ${{secrets.KUBECTL}}
-
-      - name: Test cluster connection
-        run: kubectl cluster-info
-
       - name: Deploy
-        run: kubectl set image deployments/bot bot=coder80/template-bot:sha
+        uses: actions-hub/kubectl@master
         env:
-          SHA: ${{github.sha}}
+          KUBE_CONFIG: ${{ secrets.KUBECTL }}
+          SHA: ${{ github.sha }}
+        with:
+          args: set image deployments/bot bot=coder80/template-bot:$SHA
