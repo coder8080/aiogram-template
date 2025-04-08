@@ -30,9 +30,7 @@ jobs:
         env:
           SHA: ${{ github.sha }}
       - name: Push latest tag to Docker Hub
-        run: docker push coder80/template-bot:$SHA
-        env:
-          SHA: ${{ github.sha }}
+        run: docker push coder80/template-bot:latest
 
   deploy:
     needs: build
