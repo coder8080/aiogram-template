@@ -1,7 +1,7 @@
 from src.common.lang import Lang
 
 KEYS = {
-    "start": "Hello world. Your username is {%username%}. Your id is {%id%}"
+    "start": "Rollout test number 2. Hello world. Your username is {%username%}. Your id is {%id%}"
 }
 
 

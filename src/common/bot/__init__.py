@@ -1,8 +1,8 @@
-from os import getenv
-
 from aiogram import Bot
 
-TOKEN = getenv("TOKEN")
+from common.environment import get_str_env
+
+TOKEN = get_str_env("TOKEN")
 
 assert TOKEN
 

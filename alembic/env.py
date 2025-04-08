@@ -1,6 +1,5 @@
 import asyncio
 from logging.config import fileConfig
-from os import getenv
 
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
@@ -9,15 +8,18 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 from alembic import context
 from src.bot.user.models import Blocker, User
 from src.common.db import Base
+from src.common.environment import get_int_env, get_str_env
 
 print(User, Blocker)
 
-POSTGRES_USER = getenv("POSTGRES_USER")
-POSTGRES_PASSWORD = getenv("POSTGRES_PASSWORD")
-POSTGRES_URL = getenv("POSTGRES_URL")
-POSTGRES_DB = getenv("POSTGRES_DB")
-DATABASE_URL = f"postgresql+asyncpg://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_URL}/{POSTGRES_DB}"
-print(DATABASE_URL)
+USER = get_str_env("POSTGRES_USER")
+PASSWORD = get_str_env("POSTGRES_PASSWORD")
+HOST = get_str_env("POSTGRES_HOST")
+PORT = get_int_env("POSTGRES_PORT")
+DB = get_str_env("POSTGRES_DB")
+
+DATABASE_URL = f"postgresql+asyncpg://{USER}:{PASSWORD}@{HOST}:{PORT}/{DB}"
+print("📀 Working with ", DATABASE_URL)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
