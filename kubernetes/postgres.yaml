@@ -10,7 +10,8 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 100Mi
+      storage: 1Gi
+  storageClassName: template-postgres
 ---
 apiVersion: v1
 kind: Service

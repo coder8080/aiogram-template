@@ -11,6 +11,7 @@ spec:
       storage: 1Gi
   accessModes:
     - ReadWriteOnce
+  storageClassName: template-redis
 ---
 apiVersion: v1
 kind: Service
