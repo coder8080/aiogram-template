@@ -2,14 +2,16 @@ from aiohttp import web
 
 from src.common.environment import get_str_env
 
-POD_NAME = get_str_env("POD_NAME")
-
 
 async def pod_name(request: web.Request):
+    POD_NAME = get_str_env("POD_NAME")
+
     return web.json_response({"pod_name": POD_NAME})
 
 
 async def start_site():
+    get_str_env("POD_NAME")
+
     app = web.Application()
     app.router.add_get("/pod_name", pod_name)
 

@@ -17,9 +17,10 @@ services:
     env_file: .env
     environment:
       LOCAL: True
-      POSTGRES_USERNAME: postgres
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSGRES_URL: postgres
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
       POSTGRES_DB: bot
     networks:
       - bot

@@ -16,14 +16,15 @@ async def main():
     dp.update.middleware(GetUserMiddleware())
     dp.include_router(start_router)
 
-    await start_site()
-
     session = ClientSession()
 
-    POD_NAME = get_str_env("POD_NAME")
     LOCAL = get_bool_env("LOCAL")
 
     if not LOCAL:
+        await start_site()
+
+        POD_NAME = get_str_env("POD_NAME")
+
         print("⏱️ Waiting to become main instance...")
 
         while True:
