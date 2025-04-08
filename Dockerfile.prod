@@ -7,4 +7,4 @@ COPY . .
 
 ENV PYTHONPATH=/usr/src/app
 
-CMD alembic upgrade head && python -u src/main.py
+CMD sh -c "python -u ./src/wait_for_db.py && alembic upgrade head && python -u src/main.py"
