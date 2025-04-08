@@ -1,0 +1,20 @@
+name: Lint
+
+run-name: Lint ${{github.sha}}
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: Build Docker container for lint
+        run: docker build -t bot-lint -f Dockerfile.lint .
+      - name: Run built container
+        run: docker run bot-lint
